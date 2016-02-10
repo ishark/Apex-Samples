@@ -20,10 +20,10 @@ public class Application implements StreamingApplication
   {
     // Sample DAG with 2 operators
     // Replace this code with the DAG you want to build
-    // Application does not exit
+    // Application does not exit even if reading is done since FileInputReaderWithoutShutDownException does not throw exception
     DummyOutputOperator combinedConsole = dag.addOperator("console", new DummyOutputOperator());
     
-    FileInputReader inputOp = dag.addOperator("inputWordsReader", new FileInputReader());
+    FileInputReaderWithShutDown inputOp = dag.addOperator("inputWordsReader", new FileInputReaderWithShutDown());
     inputOp.setDirectory("/media/isha/apex-samples/sampleInput1");
     dag.addStream("stream1", inputOp.output, combinedConsole.input1);
     

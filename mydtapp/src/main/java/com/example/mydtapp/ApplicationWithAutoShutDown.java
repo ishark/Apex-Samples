@@ -23,11 +23,11 @@ public class ApplicationWithAutoShutDown implements StreamingApplication
     // Application does auto exits when input is done since both input reader operators throw shutdown exception when done.
     DummyOutputOperator combinedConsole = dag.addOperator("console", new DummyOutputOperator());
     
-    FileInputReader inputOp = dag.addOperator("inputWordsReader", new FileInputReader());
+    FileInputReaderWithShutDown inputOp = dag.addOperator("inputWordsReader", new FileInputReaderWithShutDown());
     inputOp.setDirectory("/media/isha/apex-samples/sampleInput1");
     dag.addStream("stream1", inputOp.output, combinedConsole.input1);
     
-    FileInputReader inputOp1 = dag.addOperator("inputTextReader1", new FileInputReader());
+    FileInputReaderWithShutDown inputOp1 = dag.addOperator("inputTextReader1", new FileInputReaderWithShutDown());
     inputOp1.setDirectory("/media/isha/apex-samples/sampleInput2");
     dag.addStream("stream2", inputOp1.output, combinedConsole.input2);
   }

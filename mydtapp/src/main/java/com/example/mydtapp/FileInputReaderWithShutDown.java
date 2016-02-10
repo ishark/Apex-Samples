@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.datatorrent.api.DefaultOutputPort;
 import com.datatorrent.lib.io.fs.AbstractFileInputOperator;
 
-public class FileInputReader extends AbstractFileInputOperator<String>
+public class FileInputReaderWithShutDown extends AbstractFileInputOperator<String>
 {
   
   private boolean doneReading = false;
@@ -62,5 +62,5 @@ public class FileInputReader extends AbstractFileInputOperator<String>
     }
   }
   
-  public static Logger logger = LoggerFactory.getLogger(FileInputReader.class);
+  public static Logger logger = LoggerFactory.getLogger(FileInputReaderWithShutDown.class);
 }

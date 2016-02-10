@@ -14,9 +14,6 @@ import com.datatorrent.lib.io.fs.AbstractFileInputOperator;
 
 public class FileInputReaderWithoutShutDownException extends AbstractFileInputOperator<String>
 {
-  
-  private boolean doneReading = false;
-
   private BufferedReader bufferedReader;
   public final transient DefaultOutputPort<String> output = new DefaultOutputPort<String>();
 
@@ -39,27 +36,6 @@ public class FileInputReaderWithoutShutDownException extends AbstractFileInputOp
   protected void emit(String tuple)
   {
     output.emit(tuple);
-  }
-  
-  @Override
-  protected void closeFile(InputStream is) throws IOException
-  {
-    // TODO Auto-generated method stub
-    super.closeFile(is);
-    if(pendingFiles.isEmpty() && failedFiles.isEmpty()) {
-      doneReading = true;
-    }
-  }
-
-  @Override
-  public void endWindow()
-  {
-    // TODO Auto-generated method stub
-    super.endWindow();
-    if(doneReading) {
-//      logger.info("Shutting down....");
-//      throw new ShutdownException();
-    }
   }
   
   public static Logger logger = LoggerFactory.getLogger(FileInputReaderWithoutShutDownException.class);
