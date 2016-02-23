@@ -40,7 +40,7 @@ public class Application implements StreamingApplication
     List<AffinityRule> rules = new ArrayList<>();
 
     rules.add(new AffinityRule(Type.AFFINITY, new OperatorPair( "rand", "console"), Locality.NODE_LOCAL, false));
-    rules.add(new AffinityRule(Type.ANTI_AFFINITY, new OperatorPair( "rand", "passThru1"), Locality.NODE_LOCAL, false));
+    rules.add(new AffinityRule(Type.ANTI_AFFINITY, new OperatorPair( "rand", "passThru"), Locality.NODE_LOCAL, false));
     rules.add(new AffinityRule(Type.ANTI_AFFINITY, new OperatorPair( "passThru", "passThru"), Locality.NODE_LOCAL, false));
     
     dag.setAttribute(DAGContext.AFFINITY_RULES, rules);
