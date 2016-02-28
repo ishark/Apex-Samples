@@ -13,6 +13,39 @@
   </property>
   -->
   <property>
+    <name>dt.application.AffinityRulesJsonProperties.attr.AFFINITY_RULES_SET</name>
+    <value>
+  {
+  "affinityRules": [
+    {
+      "operatorRegex": "rand|console",
+      "locality": "NODE_LOCAL",
+      "type": "AFFINITY",
+      "relaxLocality": false
+    },
+    {
+      "operators": {
+        "first": "rand",
+        "second": "passThru"
+      },
+      "locality": "NODE_LOCAL",
+      "type": "ANTI_AFFINITY",
+      "relaxLocality": false
+    },
+    {
+      "operatorsList": [
+        "passThru",
+        "passThru"
+      ],
+      "locality": "NODE_LOCAL",
+      "type": "ANTI_AFFINITY",
+      "relaxLocality": false
+    }
+  ]
+}
+    </value>
+  </property>
+  <property>
     <name>dt.application.MyFirstApplication.operator.randomGenerator.prop.numTuples</name>
     <value>1000</value>
   </property>

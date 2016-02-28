@@ -14,8 +14,8 @@ import com.datatorrent.common.partitioner.StatelessPartitioner;
 import com.datatorrent.lib.algo.UniqueCounter;
 import com.datatorrent.lib.io.ConsoleOutputOperator;
 
-@ApplicationAnnotation(name="AffinityRulesJsonProperties")
-public class Application implements StreamingApplication
+@ApplicationAnnotation(name="AffinityRulesDagAPIs")
+public class ApplicationDagAPIs implements StreamingApplication
 {
 
   @Override
@@ -25,11 +25,14 @@ public class Application implements StreamingApplication
     UniqueCounter<Double> counter = dag.addOperator("counter", new UniqueCounter<Double>());
     PassThruOperator passThru1 = dag.addOperator("passThru", new PassThruOperator());
     ConsoleOutputOperator console = dag.addOperator("console", new ConsoleOutputOperator());
-    dag.addStream("rand_calc", rand.out, counter.data).setLocality(Locality.CONTAINER_LOCAL);
+    dag.addStream("rand_calc", rand.out, counter.data).setLocality(Locality.NODE_LOCAL);
     dag.addStream("passthru1", counter.count, passThru1.input);
     dag.addStream("rand_console",passThru1.output, console.input);
     dag.setAttribute(passThru1, OperatorContext.PARTITIONER, new StatelessPartitioner<PassThruOperator>(10));
-
+    
+    dag.setAffinity(Locality.CONTAINER_LOCAL, false, "rand", "console");
+    dag.setAntiAffinity(Locality.NODE_LOCAL, false, "rand", "passThru", "passThru");
+   
     dag.getMeta(rand).getAttributes().put(OperatorContext.LOCALITY_HOST, "node17.morado.com");    
   }
 }
