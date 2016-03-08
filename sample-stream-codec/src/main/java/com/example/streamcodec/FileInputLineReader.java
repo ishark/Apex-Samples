@@ -14,7 +14,7 @@ import com.datatorrent.lib.io.fs.AbstractFileInputOperator;
 
 public class FileInputLineReader  extends AbstractFileInputOperator<String>
 {  
-  private BufferedReader bufferedReader;
+  private transient BufferedReader bufferedReader;
   public final transient DefaultOutputPort<String> output = new DefaultOutputPort<String>();
 
   @Override
