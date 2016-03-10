@@ -278,23 +278,23 @@
       <groupId>com.datatorrent</groupId>
       <artifactId>dt-contrib</artifactId>
       <version>3.3.0-SNAPSHOT</version>
-      <!--exclusions>
+      <exclusions>
         <exclusion>
           <groupId>*</groupId>
           <artifactId>*</artifactId>
         </exclusion>
-      </exclusions-->
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.datatorrent</groupId>
       <artifactId>dt-library</artifactId>
       <version>3.3.0-SNAPSHOT</version>
-      <!--exclusions>
+      <exclusions>
         <exclusion>
           <groupId>*</groupId>
           <artifactId>*</artifactId>
         </exclusion>
-      </exclusions-->
+      </exclusions>
     </dependency>
   </dependencies>
 
