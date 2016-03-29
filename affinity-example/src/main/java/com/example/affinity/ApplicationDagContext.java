@@ -9,7 +9,6 @@ import java.util.List;
 import org.apache.hadoop.conf.Configuration;
 
 import com.datatorrent.api.AffinityRule;
-import com.datatorrent.api.AffinityRule.OperatorPair;
 import com.datatorrent.api.AffinityRule.Type;
 import com.datatorrent.api.AffinityRulesSet;
 import com.datatorrent.api.Context.DAGContext;
@@ -47,7 +46,7 @@ public class ApplicationDagContext implements StreamingApplication
     operators.add("passThru");
        
     rules.add(new AffinityRule(Type.AFFINITY,"rand|console" , Locality.NODE_LOCAL, false));
-    rules.add(new AffinityRule(Type.ANTI_AFFINITY, new OperatorPair( "rand", "passThru"), Locality.NODE_LOCAL, false));
+    rules.add(new AffinityRule(Type.ANTI_AFFINITY, Locality.NODE_LOCAL, false, "rand", "passThru"));
     rules.add(new AffinityRule(Type.ANTI_AFFINITY, operators, Locality.NODE_LOCAL, false));
     ruleSet.setAffinityRules(rules);
     

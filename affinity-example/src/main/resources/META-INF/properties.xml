@@ -24,10 +24,10 @@
       "relaxLocality": false
     },
     {
-      "operators": {
-        "first": "rand",
-        "second": "passThru"
-      },
+     "operatorsList": [
+        "rand",
+        "passThru"
+      ],
       "locality": "NODE_LOCAL",
       "type": "ANTI_AFFINITY",
       "relaxLocality": false
