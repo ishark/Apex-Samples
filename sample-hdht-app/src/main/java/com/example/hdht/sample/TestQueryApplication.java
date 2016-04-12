@@ -9,6 +9,7 @@ import com.datatorrent.api.annotation.ApplicationAnnotation;
 import com.datatorrent.api.StreamingApplication;
 import com.datatorrent.api.DAG;
 import com.datatorrent.lib.fileaccess.TFileImpl;
+import com.datatorrent.lib.io.ConsoleOutputOperator;
 
 @ApplicationAnnotation(name="HdhtQueryTestApplication")
 public class TestQueryApplication implements StreamingApplication
@@ -31,6 +32,8 @@ public class TestQueryApplication implements StreamingApplication
     System.out.println("Setting basePath " + basePath);
     store.setFileStore(hdsFile);
 
+    ConsoleOutputOperator console = dag.addOperator("console", new ConsoleOutputOperator());
     dag.addStream("randomData", generator.out, store.input);//.setLocality(Locality.CONTAINER_LOCAL);
+    dag.addStream("output", store.queryOutput, console.input);
   }
 }
