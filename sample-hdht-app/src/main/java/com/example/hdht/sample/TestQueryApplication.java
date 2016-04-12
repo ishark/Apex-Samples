@@ -10,8 +10,8 @@ import com.datatorrent.api.StreamingApplication;
 import com.datatorrent.api.DAG;
 import com.datatorrent.lib.fileaccess.TFileImpl;
 
-@ApplicationAnnotation(name="MyFirstApplication")
-public class Application implements StreamingApplication
+@ApplicationAnnotation(name="HdhtQueryTestApplication")
+public class TestQueryApplication implements StreamingApplication
 {
   @Override
   public void populateDAG(DAG dag, Configuration conf)
@@ -19,18 +19,18 @@ public class Application implements StreamingApplication
     // Sample DAG with 2 operators
     // Replace this code with the DAG you want to build
 
-    RandomKeyValGenerator randomGenerator = dag.addOperator("randomGenerator", new RandomKeyValGenerator());
-    randomGenerator.setNumTuples(100000);
+    AscendingKeyValGenerator generator = dag.addOperator("keyValGenerator", new AscendingKeyValGenerator());
+    generator.setNumTuples(100000);
     HdhtStoreOperator store = dag.addOperator("hdht", new HdhtStoreOperator());
     store.setPartitionCount(3);
 //    store.setNumberOfBuckets(12);
-    String basePath = "/user/isha/hdht";
+    String basePath = "/user/isha/hdht/test";
     TFileImpl hdsFile = new TFileImpl.DTFileImpl();
-    basePath += "/" + System.currentTimeMillis();
+//    basePath += "/" + System.currentTimeMillis();
     hdsFile.setBasePath(basePath);
     System.out.println("Setting basePath " + basePath);
     store.setFileStore(hdsFile);
 
-    dag.addStream("randomData", randomGenerator.out, store.input);//.setLocality(Locality.CONTAINER_LOCAL);
+    dag.addStream("randomData", generator.out, store.input);//.setLocality(Locality.CONTAINER_LOCAL);
   }
 }
