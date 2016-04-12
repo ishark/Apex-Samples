@@ -11,7 +11,7 @@ import com.datatorrent.api.DAG;
 import com.datatorrent.lib.fileaccess.TFileImpl;
 import com.datatorrent.lib.io.ConsoleOutputOperator;
 
-@ApplicationAnnotation(name="QueryApplication")
+@ApplicationAnnotation(name="WriteAndQueryApplication")
 public class WriteAndQueryHDHT implements StreamingApplication
 {
   @Override
@@ -26,8 +26,8 @@ public class WriteAndQueryHDHT implements StreamingApplication
     generator.setNumTuples(100);
     HdhtStoreOperator store = dag.addOperator("hdht", new HdhtStoreOperator());
     store.setPartitionCount(2);
-    store.setNumberOfBuckets(4);
-    String basePath = "/user/isha/hdht/test";
+    store.setNumberOfBuckets(14);
+    String basePath = "/user/isha/hdht/testWriteAndQuery";
     TFileImpl hdsFile = new TFileImpl.DTFileImpl();
 
     hdsFile.setBasePath(basePath);
