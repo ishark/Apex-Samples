@@ -13,19 +13,22 @@ public class AscendingKeyValGenerator extends BaseOperator implements InputOpera
   private transient int count = 0;
   private int index = 0;
   public final transient DefaultOutputPort<KeyValPair<Integer, Integer>> out = new DefaultOutputPort<KeyValPair<Integer, Integer>>();
-
+  boolean emitTuples = false;
   private int maxKey = 1000000;
   
   @Override
   public void beginWindow(long windowId)
   {
     count = 0;
+    if (windowId % 2 != 0) {
+      emitTuples = true;
+    }
   }
 
   @Override
   public void emitTuples()
   {
-    if (count++ < numTuples || index == Integer.MAX_VALUE) {
+    if (emitTuples && (count++ < numTuples || index == Integer.MAX_VALUE)) {
       out.emit(new KeyValPair<Integer,Integer>(index, index++));
     }
   }
@@ -35,6 +38,12 @@ public class AscendingKeyValGenerator extends BaseOperator implements InputOpera
     return numTuples;
   }
 
+  @Override
+  public void endWindow()
+  {
+    super.endWindow();
+    emitTuples = false;
+  }
   /**
    * Sets the number of tuples to be emitted every window.
    * @param numTuples number of tuples

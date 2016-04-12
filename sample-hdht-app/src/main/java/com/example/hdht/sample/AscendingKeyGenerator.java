@@ -1,11 +1,9 @@
 package com.example.hdht.sample;
 
-import java.util.Random;
 
 import com.datatorrent.api.DefaultOutputPort;
 import com.datatorrent.api.InputOperator;
 import com.datatorrent.common.util.BaseOperator;
-import com.datatorrent.lib.util.KeyValPair;
 
 public class AscendingKeyGenerator extends BaseOperator implements InputOperator
 {
@@ -13,17 +11,20 @@ public class AscendingKeyGenerator extends BaseOperator implements InputOperator
   private transient int count = 0;
   private int index = 0;
   public final transient DefaultOutputPort<Integer> out = new DefaultOutputPort<Integer>();
-
+  boolean emitTuples = false;
   @Override
   public void beginWindow(long windowId)
   {
     count = 0;
+    if (windowId % 2 == 0) {
+      emitTuples = true;
+    }
   }
 
   @Override
   public void emitTuples()
   {
-    if (count++ < numTuples || index == Integer.MAX_VALUE) {
+    if (emitTuples && (count++ < numTuples || index == Integer.MAX_VALUE)) {
       out.emit(index++);
     }
   }
@@ -31,6 +32,14 @@ public class AscendingKeyGenerator extends BaseOperator implements InputOperator
   public int getNumTuples()
   {
     return numTuples;
+  }
+
+
+  @Override
+  public void endWindow()
+  {
+    super.endWindow();
+    emitTuples = false;
   }
 
   /**
